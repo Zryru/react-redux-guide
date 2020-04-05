@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import CounterControl from "../../components/CounterControl/CounterControl";
 import CounterOutput from "../../components/CounterOutput/CounterOutput";
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions";
+import * as actionCreators from "../../store/actions/index";
 
 class Counter extends Component {
   render() {
@@ -27,9 +27,11 @@ class Counter extends Component {
           clicked={() => this.props.onSubtractCounter(5)}
         />
         <hr></hr>
-        <button onClick={() => this.props.onStoreResult(this.props.ctr)}>Store Result</button>
+        <button onClick={() => this.props.onStoreResult(this.props.ctr)}>
+          Store Result
+        </button>
         <ul>
-          {this.props.storedResults.map(sr => (
+          {this.props.storedResults.map((sr) => (
             <li key={sr.id} onClick={() => this.props.onDeleteResult(sr.id)}>
               {sr.value}
             </li>
@@ -40,51 +42,21 @@ class Counter extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ctr: state.ctr.counter,
-    storedResults: state.res.results
+    storedResults: state.res.results,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onIncrementCounter: () =>
-      dispatch({
-        type: actionTypes.INCREMENT
-      }),
-    onDecrementCounter: () =>
-      dispatch({
-        type: actionTypes.DECREMENT
-      }),
-    onAddCounter: value =>
-      dispatch({
-        type: actionTypes.ADD,
-        payload: {
-          value: value
-        }
-      }),
-    onSubtractCounter: value =>
-      dispatch({
-        type: actionTypes.SUBTRACT,
-        payload: {
-          value: value
-        }
-      }),
-    onStoreResult: result =>
-      dispatch({
-        type: actionTypes.STORE_RESULT,
-        payload: {
-          result: result
-        }
-      }),
-    onDeleteResult: id =>
-      dispatch({
-        type: actionTypes.DELETE_RESULT,
-        payload: {
-          id: id
-        }
-      })
+    onIncrementCounter: () => dispatch(actionCreators.increment()),
+    onDecrementCounter: () => dispatch(actionCreators.decrement()),
+    onAddCounter: (value) => dispatch(actionCreators.add(value)),
+    onSubtractCounter: (value) => dispatch(actionCreators.subtract(value)),
+    onStoreResult: (result) => dispatch(actionCreators.storeResult(result)),
+    onDeleteResult: (id) => dispatch(actionCreators.deleteResult(id)),
   };
 };
 
