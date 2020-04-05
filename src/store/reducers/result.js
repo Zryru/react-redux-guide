@@ -22,6 +22,7 @@ const reducer = (state = initialState, action) => {
       });
     case actionTypes.DELETE_RESULT:
       deleteResult(state, action);
+      break;
     default:
       return state;
   }
